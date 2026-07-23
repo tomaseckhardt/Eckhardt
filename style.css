@@ -410,8 +410,49 @@ a:focus-visible, button:focus-visible {
   flex-direction: column;
   gap: .3rem;
 }
-.proj-list-inline a { color: var(--green); }
+.proj-list-inline li {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35rem;
+}
+.proj-list-inline a { color: var(--green); flex: none; }
 .proj-list-inline a:hover, .proj-list-inline a:focus-visible { color: var(--amber); }
+
+.proj-desc {
+  color: var(--text-dim);
+  font-size: .78rem;
+}
+.proj-desc::before { content: '— '; }
+
+.proj-list-inline a[data-desc]::after {
+  content: attr(data-desc);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: .3rem;
+  width: max-content;
+  max-width: 34ch;
+  padding: .5rem .65rem;
+  background: var(--bg-panel-2);
+  border: 1px solid var(--border-bright);
+  border-radius: 4px;
+  font-size: .74rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity .15s ease, transform .15s ease;
+  z-index: 5;
+}
+.proj-list-inline a[data-desc]:hover::after,
+.proj-list-inline a[data-desc]:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* hint chips */
 
