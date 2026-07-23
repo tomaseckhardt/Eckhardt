@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tomáš Eckhardt — QA Engineer | tomas.eckhardt.cz</title>
+    <meta
+      name="description"
+      content="Tomáš Eckhardt — QA specialista (manuální i automatizované testování, Playwright, REST API, SQL). Vlastní projekty, praxe a životopis v jednom terminálu." />
+    <meta name="author" content="Tomáš Eckhardt" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://tomas.eckhardt.cz/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tomas.eckhardt.cz/" />
+    <meta
+      property="og:title"
+      content="Tomáš Eckhardt — QA Engineer &amp; builder" />
+    <meta
+      property="og:description"
+      content="Tomáš Eckhardt — QA specialista &amp; builder. Projekty, praxe a životopis v jednom terminálu." />
+    <meta
+      property="og:image"
+      content="https://tomas.eckhardt.cz/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Tomáš Eckhardt — QA Engineer &amp; builder" />
+    <meta
+      name="twitter:description"
+      content="Tomáš Eckhardt — QA specialista &amp; builder. Projekty, praxe a životopis v jednom terminálu." />
+    <meta
+      name="twitter:image"
+      content="https://tomas.eckhardt.cz/assets/og-image.png" />
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/favicon-32.png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Tomáš Eckhardt",
+        "url": "https://tomas.eckhardt.cz/",
+        "email": "eki7.te@gmail.com",
+        "telephone": "+420773632290",
+        "jobTitle": "QA Engineer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "R2B2, a. s."
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Praha",
+          "addressCountry": "CZ"
+        },
+        "alumniOf": [
+          {
+            "@type": "CollegeOrUniversity",
+            "name": "Vysoká škola ekonomiky a managementu"
+          },
+          {
+            "@type": "CollegeOrUniversity",
+            "name": "Českoslovanská akademie obchodní"
+          }
+        ],
+        "knowsAbout": [
+          "Manuální testování",
+          "Automatizace testů",
+          "E2E testování",
+          "CI/CD pipeline",
+          "REST API testing",
+          "SQL",
+          "Playwright"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="rain"></canvas>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+
+    <div class="stage">
+      <header class="page-head">
+        <h1 class="brand">
+          tomas<span class="sep">.</span>eckhardt<span class="sep">.</span>cz
+        </h1>
+        <p class="tagline" id="tagline">
+          // QA specialista — testování, automatizace, kvalita
+        </p>
+      </header>
+
+      <main
+        class="terminal-window"
+        aria-label="terminál s projekty a životopisem">
+        <div class="title-bar">
+          <div class="dots">
+            <span class="dot red"></span>
+            <span class="dot amber"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="title-path">guest@eckhardt:&nbsp;~</span>
+          <div
+            class="role-switch"
+            role="group"
+            aria-label="zobrazit profil jako">
+            <button
+              type="button"
+              class="role-btn is-active"
+              data-role="qa"
+              aria-pressed="true">
+              QA
+            </button>
+            <button
+              type="button"
+              class="role-btn"
+              data-role="dev"
+              aria-pressed="false">
+              Dev
+            </button>
+          </div>
+        </div>
+
+        <div class="term-body">
+          <p class="cmd-line l1">
+            <span class="prompt">guest@eckhardt:~$</span><span>Ahoj, jsem</span>
+          </p>
+          <p class="output">Tomáš.</p>
+          <p class="cmd-line l2" hidden>
+            <span class="prompt">guest@eckhardt:~$</span
+            ><span>ls -la ~/projects</span>
+          </p>
+
+          <p class="listing-label" hidden>total 5</p>
+          <nav class="listing" hidden>
+            <a
+              class="proj-row r1 is-masterpiece"
+              href="https://ruin.eckhardt.cz"
+              target="_blank"
+              rel="noopener">
+              <span class="perm">drwxr-xr-x</span>
+              <span class="arrow">›</span>
+              <span class="name-wrap">
+                <span class="name">ruin.eckhardt.cz</span>
+                <span class="badge-chip">Masterpiece</span>
+              </span>
+              <span class="go">open →</span>
+            </a>
+            <a
+              class="proj-row r2"
+              href="https://barber.eckhardt.cz"
+              target="_blank"
+              rel="noopener">
+              <span class="perm">drwxr-xr-x</span>
+              <span class="arrow">›</span>
+              <span class="name">barber.eckhardt.cz</span>
+              <span class="go">open →</span>
+            </a>
+            <a
+              class="proj-row r3"
+              href="https://sorry.eckhardt.cz"
+              target="_blank"
+              rel="noopener">
+              <span class="perm">drwxr-xr-x</span>
+              <span class="arrow">›</span>
+              <span class="name">sorry.eckhardt.cz</span>
+              <span class="go">open →</span>
+            </a>
+            <a
+              class="proj-row r4"
+              href="https://barx.eckhardt.cz"
+              target="_blank"
+              rel="noopener">
+              <span class="perm">drwxr-xr-x</span>
+              <span class="arrow">›</span>
+              <span class="name">barx.eckhardt.cz</span>
+              <span class="go">open →</span>
+            </a>
+            <a
+              class="proj-row r5"
+              href="https://time-tracker.eckhardt.cz"
+              target="_blank"
+              rel="noopener">
+              <span class="perm">drwxr-xr-x</span>
+              <span class="arrow">›</span>
+              <span class="name">time-tracker.eckhardt.cz</span>
+              <span class="go">open →</span>
+            </a>
+          </nav>
+
+          <div id="output" class="output-log" aria-live="polite"></div>
+
+          <p class="hint">
+            <span class="hint-label">zkus:</span>
+            <button type="button" class="chip" data-cmd="about">about</button>
+            <button type="button" class="chip" data-cmd="experience">
+              experience
+            </button>
+            <button type="button" class="chip" data-cmd="skills">skills</button>
+            <button type="button" class="chip" data-cmd="languages">
+              languages
+            </button>
+            <button type="button" class="chip" data-cmd="education">
+              education
+            </button>
+            <button type="button" class="chip" data-cmd="contact">
+              contact
+            </button>
+            <button type="button" class="chip" data-cmd="projects">
+              projects
+            </button>
+            <button type="button" class="chip" data-cmd="print">print</button>
+            <button type="button" class="chip" data-cmd="clear">clear</button>
+            <button type="button" class="chip" data-cmd="help">help</button>
+            <span class="hint-note">↑↓ historie · Tab doplnění</span>
+          </p>
+
+          <form id="cmdForm" class="final-line" autocomplete="off">
+            <span class="prompt">guest@eckhardt:~$</span>
+            <input
+              id="cmdInput"
+              class="cmd-input"
+              type="text"
+              aria-label="terminálový příkaz"
+              autocomplete="off"
+              spellcheck="false" />
+            <span class="cursor" aria-hidden="true">&nbsp;</span>
+          </form>
+        </div>
+      </main>
+
+      <footer class="mark">tomas.eckhardt.cz</footer>
+    </div>
+
+    <div
+      class="hr-popup"
+      id="hrPopup"
+      role="dialog"
+      aria-label="zkratka pro HR"
+      hidden>
+      <button
+        type="button"
+        class="hr-popup-close"
+        id="hrPopupClose"
+        aria-label="zavřít">
+        ×
+      </button>
+      <p class="hr-popup-text">Jsi z HR? <span aria-hidden="true">👋</span></p>
+      <button type="button" class="hr-popup-btn" id="hrPopupBtn">
+        klikni sem pro životopis
+      </button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
