@@ -624,7 +624,7 @@ if (hrPopup && hrPopupBtn && hrPopupClose) {
 
   hrPopupBtn.addEventListener("click", () => {
     hrPopup.hidden = true;
-    runCommand("print");
+    window.open("assets/CV_Tomas_Eckhardt.pdf", "_blank");
   });
 
   hrPopupClose.addEventListener("click", () => {
