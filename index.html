@@ -33,29 +33,34 @@
         class="terminal-window"
         aria-label="terminál s projekty a životopisem">
         <div class="title-bar">
-          <div class="dots">
-            <span class="dot red"></span>
-            <span class="dot amber"></span>
-            <span class="dot green"></span>
-          </div>
+          <button
+            type="button"
+            class="role-toggle"
+            id="roleToggle"
+            role="switch"
+            aria-checked="false"
+            aria-label="přepnout profil mezi QA a Dev">
+            <span class="role-toggle-thumb" aria-hidden="true"></span>
+            <span class="role-toggle-label">QA</span>
+            <span class="role-toggle-label">DEV</span>
+          </button>
           <span class="title-path">guest@eckhardt:&nbsp;~</span>
-          <div
-            class="role-switch"
-            role="group"
-            aria-label="zobrazit profil jako">
-            <button
-              type="button"
-              class="role-btn is-active"
-              data-role="qa"
-              aria-pressed="true">
-              QA
+          <div class="win-controls" aria-hidden="true">
+            <button type="button" class="win-btn win-min" tabindex="-1">
+              <svg viewBox="0 0 10 10" width="10" height="10">
+                <line x1="1" y1="8" x2="9" y2="8" stroke="currentColor" />
+              </svg>
             </button>
-            <button
-              type="button"
-              class="role-btn"
-              data-role="dev"
-              aria-pressed="false">
-              Dev
+            <button type="button" class="win-btn win-max" tabindex="-1">
+              <svg viewBox="0 0 10 10" width="10" height="10">
+                <rect x="1.5" y="1.5" width="7" height="7" stroke="currentColor" fill="none" />
+              </svg>
+            </button>
+            <button type="button" class="win-btn win-close" tabindex="-1">
+              <svg viewBox="0 0 10 10" width="10" height="10">
+                <line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" />
+                <line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" />
+              </svg>
             </button>
           </div>
         </div>

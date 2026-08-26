@@ -117,6 +117,7 @@ a:focus-visible, button:focus-visible {
   border-radius: 8px;
   box-shadow: 0 0 0 1px rgba(0,0,0,.4), 0 0 40px -8px var(--green-glow), 0 20px 60px -20px rgba(0,0,0,.8);
   overflow: hidden;
+  transition: transform .35s ease, filter .35s ease;
 }
 
 .title-bar {
@@ -129,11 +130,24 @@ a:focus-visible, button:focus-visible {
   border-bottom: 1px solid var(--border-dim);
 }
 
-.dots { display: flex; gap: .4rem; }
-.dot { width: .6rem; height: .6rem; border-radius: 50%; display: inline-block; }
-.dot.red { background: var(--red); }
-.dot.amber { background: var(--amber); }
-.dot.green { background: var(--green); }
+.win-controls { margin-left: auto; display: flex; }
+.win-btn {
+  width: 2.1rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background .12s ease, color .12s ease;
+}
+.win-btn svg { fill: none; stroke-width: 1; }
+.win-btn:hover { background: rgba(255,255,255,.08); color: var(--green-bright); }
+.win-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: -2px; }
+.win-btn.win-close:hover { background: var(--red); color: var(--bg); }
 
 .title-path {
   margin-left: .3rem;
@@ -142,32 +156,47 @@ a:focus-visible, button:focus-visible {
   letter-spacing: .02em;
 }
 
-.role-switch {
-  margin-left: auto;
-  display: flex;
-  gap: .3rem;
-}
-.role-btn {
+.role-toggle {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 4.6rem;
+  height: 1.5rem;
   font: inherit;
-  font-size: .7rem;
+  font-size: .62rem;
   letter-spacing: .04em;
-  color: var(--text-dim);
   background: transparent;
   border: 1px solid var(--border-dim);
-  border-radius: 4px;
-  padding: .15rem .55rem;
+  border-radius: 999px;
+  padding: 0;
   cursor: pointer;
-  transition: color .15s ease, border-color .15s ease, background .15s ease;
+  overflow: hidden;
+  transition: border-color .15s ease;
 }
-.role-btn:hover, .role-btn:focus-visible {
-  color: var(--amber);
-  border-color: var(--amber-glow);
+.role-toggle:hover, .role-toggle:focus-visible {
+  border-color: var(--border-bright);
 }
-.role-btn.is-active {
-  color: var(--bg);
+.role-toggle-thumb {
+  position: absolute;
+  inset: 0 50% 0 0;
   background: var(--green);
-  border-color: var(--green);
+  transition: transform .2s ease, background .2s ease;
 }
+.role-toggle[aria-checked="true"] .role-toggle-thumb {
+  transform: translateX(100%);
+  background: var(--amber);
+}
+.role-toggle-label {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  transition: color .2s ease;
+}
+.role-toggle[aria-checked="false"] .role-toggle-label:first-child { color: var(--bg); }
+.role-toggle[aria-checked="true"] .role-toggle-label:last-child { color: var(--bg); }
 
 .term-body {
   flex: 1;
@@ -596,18 +625,50 @@ footer.mark {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.konami-flash {
-  border-color: var(--amber) !important;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.4), 0 0 60px 4px var(--amber-glow), 0 20px 60px -20px rgba(0,0,0,.8) !important;
+.idle-hint {
+  margin: .6rem 0 0;
+  color: var(--text-dim);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.idle-hint.is-visible { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .idle-hint { transition: none; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .konami-flash { animation: konamiFlash .3s ease-in-out 4; }
+.title-fx-minimize {
+  animation: titleWobble .4s ease-in-out 2;
 }
 
-@keyframes konamiFlash {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.3); }
+@keyframes titleWobble {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(.9); }
+}
+
+.title-fx-close {
+  transform: scale(.97);
+  filter: brightness(.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-fx-minimize, .title-fx-close { animation: none; transform: none; filter: none; }
+}
+
+.crt-glitch { animation: crtGlitch .5s steps(2, end); }
+
+@keyframes crtGlitch {
+  0%, 100% { transform: translate(0, 0); filter: none; }
+  10% { transform: translate(-6px, 2px); filter: hue-rotate(15deg) saturate(1.6); }
+  20% { transform: translate(5px, -2px); filter: hue-rotate(-10deg) saturate(1.3); }
+  35% { transform: translate(-3px, 1px); filter: none; }
+  50% { transform: translate(4px, -1px); filter: hue-rotate(8deg); }
+  65% { transform: translate(-2px, 0); filter: none; }
+  80% { transform: translate(2px, 1px); filter: hue-rotate(-6deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-glitch { animation: none; }
 }
 
 @media (max-width: 420px) {

@@ -296,36 +296,6 @@ const renderHelp = () => `
   </dl>
 `;
 
-// --- easter eggs (schválně nejsou v RENDERERS/help/tab-completion) --------
-
-const renderDate = () => `
-  <p class="output">${new Date().toLocaleString("cs-CZ", { dateStyle: "full", timeStyle: "medium" })}</p>
-`;
-
-const renderNeofetch = () => `
-  <p class="section-head"># neofetch</p>
-  <dl class="help-list">
-    <dt>OS</dt><dd>tomas.eckhardt.cz Terminal Edition</dd>
-    <dt>Shell</dt><dd>qa-shell 2.0</dd>
-    <dt>Uptime</dt><dd>2016 – dosud</dd>
-    <dt>Role</dt><dd>${currentRole === "dev" ? "builder" : "QA specialista"}</dd>
-    <dt>Stack</dt><dd>Playwright, Postman, SQL, CI/CD</dd>
-  </dl>
-`;
-
-const renderSudo = () => `
-  <p class="error-text">guest is not in the sudoers file. This incident will be reported.</p>
-`;
-
-const renderSudoSandwich = () => `
-  <p class="output">Okay.</p>
-`;
-
-const renderKonami = () => `
-  <p class="section-head"># easter_egg.exe</p>
-  <p class="about-text">Access granted. Za pozornost k detailu bys dostal(a) bod navíc u code review. 🎮</p>
-`;
-
 const RENDERERS = {
   about: renderAbout,
   experience: renderExperience,
@@ -374,21 +344,21 @@ const commandHistory = [];
 let historyIndex = 0;
 let tabState = { base: null, index: -1 };
 
+const roleToggle = document.getElementById("roleToggle");
+
 const setRole = (role) => {
   if (role !== "qa" && role !== "dev") return;
   currentRole = role;
 
-  document.querySelectorAll(".role-btn").forEach((btn) => {
-    const active = btn.dataset.role === role;
-    btn.classList.toggle("is-active", active);
-    btn.setAttribute("aria-pressed", String(active));
-  });
+  if (roleToggle) {
+    roleToggle.setAttribute("aria-checked", String(role === "dev"));
+  }
 
   if (taglineEl) taglineEl.textContent = CV.tagline[role];
 };
 
-document.querySelectorAll(".role-btn").forEach((btn) => {
-  btn.addEventListener("click", () => setRole(btn.dataset.role));
+roleToggle?.addEventListener("click", () => {
+  setRole(currentRole === "qa" ? "dev" : "qa");
 });
 
 const normalizeCommand = (raw) => {
@@ -524,26 +494,6 @@ const runCommand = (raw) => {
     return;
   }
 
-  if (normalized === "date") {
-    appendEntry(raw, renderDate);
-    return;
-  }
-
-  if (normalized === "neofetch") {
-    appendEntry(raw, renderNeofetch);
-    return;
-  }
-
-  if (normalized === "sudo" || normalized.startsWith("sudo ")) {
-    appendEntry(
-      raw,
-      normalized.includes("make me a sandwich")
-        ? renderSudoSandwich
-        : renderSudo,
-    );
-    return;
-  }
-
   appendEntry(raw, RENDERERS[ALIASES[normalized]]);
 };
 
@@ -632,35 +582,116 @@ if (hrPopup && hrPopupBtn && hrPopupClose) {
   });
 }
 
-// --- konami code ------------------------------------------------------
+// --- idle hint ------------------------------------------------------------
 
-const KONAMI_SEQUENCE = [
-  "arrowup",
-  "arrowup",
-  "arrowdown",
-  "arrowdown",
-  "arrowleft",
-  "arrowright",
-  "arrowleft",
-  "arrowright",
-  "b",
-  "a",
-];
-let konamiIndex = 0;
+const IDLE_MS = 50000;
+const IDLE_CHECK_MS = 5000;
+let lastActivity = Date.now();
+let idleShown = false;
+let idleHintEl = null;
 
-document.addEventListener("keydown", (event) => {
-  const key = event.key.toLowerCase();
-  konamiIndex =
-    key === KONAMI_SEQUENCE[konamiIndex]
-      ? konamiIndex + 1
-      : Number(key === KONAMI_SEQUENCE[0]);
+const dismissIdleHint = () => {
+  if (!idleHintEl) return;
+  idleHintEl.remove();
+  idleHintEl = null;
+};
 
-  if (konamiIndex === KONAMI_SEQUENCE.length) {
-    konamiIndex = 0;
-    appendEntry("↑ ↑ ↓ ↓ ← → ← → b a", renderKonami);
+const showIdleHint = () => {
+  if (idleShown || !output) return;
+  idleShown = true;
 
-    const term = document.querySelector(".terminal-window");
-    term?.classList.add("konami-flash");
-    setTimeout(() => term?.classList.remove("konami-flash"), 2000);
+  idleHintEl = document.createElement("p");
+  idleHintEl.className = "idle-hint";
+  idleHintEl.textContent =
+    "// ...pořád tu jsi? zkus 'projects', nebo mi rovnou napiš.";
+  output.appendChild(idleHintEl);
+  typeReveal(idleHintEl);
+  window.requestAnimationFrame(() => idleHintEl?.classList.add("is-visible"));
+};
+
+["mousemove", "keydown", "click", "scroll", "touchstart"].forEach((type) => {
+  document.addEventListener(
+    type,
+    () => {
+      lastActivity = Date.now();
+      dismissIdleHint();
+    },
+    { passive: true },
+  );
+});
+
+setInterval(() => {
+  if (!idleShown && Date.now() - lastActivity >= IDLE_MS) {
+    showIdleHint();
   }
+}, IDLE_CHECK_MS);
+
+// --- title-bar win-controls eastereggy --------------------------------------
+
+const terminalWindow = document.querySelector(".terminal-window");
+const winMin = document.querySelector(".win-min");
+const winMax = document.querySelector(".win-max");
+const winClose = document.querySelector(".win-close");
+
+let winBusy = false;
+
+const showTransientLine = (text) => {
+  if (!output) return;
+  const line = document.createElement("p");
+  line.className = "idle-hint is-visible";
+  line.textContent = text;
+  output.appendChild(line);
+  typeReveal(line);
+  setTimeout(() => line.remove(), 4000);
+};
+
+const runWinEffect = (fn) => {
+  if (winBusy) return;
+  winBusy = true;
+  fn();
+};
+
+winMin?.addEventListener("click", () => {
+  runWinEffect(() => {
+    showTransientLine("minimalizace zrušena, tady je líp. :))");
+    if (reduceMotion) {
+      winBusy = false;
+      return;
+    }
+    terminalWindow?.classList.add("title-fx-minimize");
+    setTimeout(() => {
+      terminalWindow?.classList.remove("title-fx-minimize");
+      winBusy = false;
+    }, 800);
+  });
+});
+
+winMax?.addEventListener("click", () => {
+  runWinEffect(() => {
+    showTransientLine("chyba displeje 0x2011 — maximalizace se nezdařila. ;))");
+    if (reduceMotion) {
+      winBusy = false;
+      return;
+    }
+    document.body.classList.add("crt-glitch");
+    setTimeout(() => {
+      document.body.classList.remove("crt-glitch");
+      winBusy = false;
+    }, 500);
+  });
+});
+
+winClose?.addEventListener("click", () => {
+  runWinEffect(() => {
+    showTransientLine("nice try — terminál zůstává otevřený. :D");
+    if (reduceMotion) {
+      winBusy = false;
+      return;
+    }
+    terminalWindow?.classList.add("title-fx-close");
+    setTimeout(() => {
+      terminalWindow?.classList.remove("title-fx-close");
+      winBusy = false;
+    }, 700);
+  });
 });
